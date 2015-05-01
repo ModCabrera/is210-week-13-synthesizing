@@ -20,7 +20,6 @@ class PickleCache(object):
         self.__file_path = file_path
         self.__data = {}
         self.autosync = autosync
-        self.__file_object = None
         self.load()
 
     def __len__(self):
