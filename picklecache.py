@@ -6,44 +6,77 @@ import os
 import pickle
 
 
-class PickleCache():
+class PickleCache(object):
+    """Docstring
+    Attributes = None
+    """
 
-
-    def __init__(self,file_path='datastore.pkl', autosync= False):
+    def __init__(self, file_path='datastore.pkl', autosync=False):
+        """Constructor Docstring
+        Args:
+        Returns:
+        Examples:
+        """
         self.__file_path = file_path
         self.__data = {}
         self.autosync = autosync
         self.__file_object = None
-        load = self.load()
-
+        self.load()
 
     def __len__(self):
+        """Method Docstring
+        Args:
+        Returns:
+        Examples:
+        """
         return len(self.__data)
-        
 
     def __setitem__(self, key, value):
+        """Method Docstring
+        Args:
+        Returns:
+        Examples:
+        """
         try:
             self.__data[key] = value
             if self.autosync is True:
-                    self.flush()
+                self.flush()
         except LookupError:
-            raise LookupError.message()
+            raise LookupError
 
     def __getitem__(self, key):
-            try:
-                if self.__data[key]:
-                    return self.__data[key]
-            except TypeError, KeyError:
-                raise KeyError
-                
+        """Method Docstring
+        Args:
+        Returns:
+        Examples:
+        """
+        try:
+            if self.__data[key]:
+                return self.__data[key]
+
+        except LookupError:
+            raise KeyError
+
     def __delitem__(self, key):
+        """Method Docstring
+        Args:
+        Returns:
+        Examples:
+        """
         if key in self.__data:
             del self.__data[key]
+
             if self.autosync is True:
                 self.flush()
 
     def load(self):
+        """Method Docstring
+        Args:
+        Returns:
+        Examples:
+        """
         current_file = self.__file_path
+
         if os.path.exists(current_file) and os.path.getsize(current_file) > 0:
             with open(current_file, 'rb') as openfile:
                 self.__data = pickle.load(openfile)
@@ -55,7 +88,12 @@ class PickleCache():
                 writefile.close()
 
     def flush(self):
+        """Method Docstring
+        Args:
+        Returns:
+        Examples:
+        """
         with open(self.__file_path, 'w') as flushfile:
             self.__file_object = flushfile
-            pickle.dump(self.__data, self.__file_object)    
+            pickle.dump(self.__data, self.__file_object)
         flushfile.close()
