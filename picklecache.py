@@ -19,6 +19,7 @@ class PickleCache(object):
         """
         self.__file_path = file_path
         self.__data = {}
+        self.__file_object = None
         self.autosync = autosync
         self.load()
 
